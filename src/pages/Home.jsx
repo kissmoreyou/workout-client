@@ -1,13 +1,35 @@
 import { Container, Row, Col } from "react-bootstrap";
 import WorkoutForm from "../components/WorkoutForm";
+import { useEffect, useState } from "react";
+import instance from "../util/axios";
+import Workouts from "../components/Workouts";
 const Home = () => {
+  const [workouts, setWorkouts] = useState([]);
+  useEffect(() => {
+    const fetchWorkouts = async () => {
+      try {
+        const response = await instance.get("/");
+
+        if (response.statusText === "OK") {
+          setWorkouts(response.data);
+        }
+      } catch (error) {
+        console.log(error.message);
+      }
+    };
+    fetchWorkouts();
+  }, []);
   return (
     <Container>
       <Row>
         <Col lg={4}>
           <WorkoutForm />
         </Col>
-        <Col lg={8}></Col>
+        <Col lg={8}>
+          {workouts?.map((workout) => {
+            return <Workouts key={workout._id} data={workout} />;
+          })}
+        </Col>
       </Row>
     </Container>
   );
