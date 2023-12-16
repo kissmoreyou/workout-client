@@ -1,7 +1,9 @@
 import { useState } from "react";
 import { Button, FloatingLabel, Form, Stack } from "react-bootstrap";
 import instance from "../util/axios";
+import useWorkoutContext from "../hooks/useWorkoutContext";
 const WorkoutForm = () => {
+  const { dispatch } = useWorkoutContext();
   const formData = {
     title: "",
     weight: "",
@@ -22,6 +24,7 @@ const WorkoutForm = () => {
     try {
       const response = await instance.post("/", data);
       if (response.statusText === "OK") {
+        dispatch({ type: "ADD_WORKOUT", payload: response.data });
         setData(formData);
         setIsLoading(false);
         setErrors({});
