@@ -11,7 +11,8 @@ const NavigationBar = () => {
             <Nav.Link>Home</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link>Laurence Quismorio</Nav.Link>
+            <Nav.Link>Login</Nav.Link>
+            <Nav.Link>Signup</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>
