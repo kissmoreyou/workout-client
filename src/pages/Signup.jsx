@@ -12,14 +12,8 @@ const Signup = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    try {
-      await signup(data);
-      setData(sigunpData);
-    } catch (error) {
-      // console.log(error.message);
-      console.log(errors);
-    }
+    await signup(data);
+    // setData(sigunpData);
   };
   return (
     <Container>
@@ -35,7 +29,9 @@ const Signup = () => {
                 value={data.email}
                 onChange={handleChange}
               />
-              <Form.Text className="text-danger"></Form.Text>
+              <Form.Text className="text-danger">
+                {errors?.email && errors.email}
+              </Form.Text>
             </Form.Group>
             <Form.Group className="mb-3" controlId="password">
               <Form.Label>Password</Form.Label>
@@ -45,10 +41,12 @@ const Signup = () => {
                 value={data.password}
                 onChange={handleChange}
               />
-              <Form.Text className="text-danger"></Form.Text>
+              <Form.Text className="text-danger">
+                {errors?.password && errors.password}
+              </Form.Text>
             </Form.Group>
             <Button variant="primary" type="submit" disabled={isLoading}>
-              Signup
+              {isLoading ? "Loading..." : "Signup"}
             </Button>
           </Form>
         </Col>

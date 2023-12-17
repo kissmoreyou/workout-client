@@ -1,6 +1,6 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-
+import { useLogout } from "../hooks/useLogout";
 const NavigationBar = () => {
   const navigate = useNavigate();
   return (
@@ -13,6 +13,7 @@ const NavigationBar = () => {
             <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
           </Nav>
           <Nav>
+            <Nav.Link onClick={() => useLogout()}>Logout</Nav.Link>
             <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
             <Nav.Link onClick={() => navigate("/signup")}>Signup</Nav.Link>
           </Nav>

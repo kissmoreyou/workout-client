@@ -15,11 +15,12 @@ const useSignup = () => {
 
       if (response.statusText === "OK") {
         setIsLoading(false);
+        localStorage.setItem("user", JSON.stringify(response.data));
         dispatch({ type: "USER_LOGIN", payload: response.data });
       }
     } catch (error) {
-      console.log(error.response.data);
-      //   setErrors(error.response);
+      // console.log(error.response.data);
+      setErrors(error.response.data);
       setIsLoading(false);
     }
   };
