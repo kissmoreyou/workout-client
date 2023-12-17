@@ -22,7 +22,7 @@ const WorkoutForm = () => {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const response = await instance.post("/", data);
+      const response = await instance.post("/workouts", data);
       if (response.statusText === "OK") {
         dispatch({ type: "ADD_WORKOUT", payload: response.data });
         setData(formData);

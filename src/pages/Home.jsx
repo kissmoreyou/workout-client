@@ -10,7 +10,7 @@ const Home = () => {
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const response = await instance.get("/");
+        const response = await instance.get("/workouts");
 
         if (response.statusText === "OK") {
           // setWorkouts(response.data);

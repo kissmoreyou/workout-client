@@ -6,7 +6,7 @@ const Workouts = ({ data }) => {
   const { _id, title, weight, reps, createdAt, updatedAt } = data;
   const handleClick = async (id) => {
     try {
-      const response = await instance.delete("/" + id);
+      const response = await instance.delete("/workouts/" + id);
 
       if (response.statusText === "OK") {
         dispatch({ type: "DELETE_WORKOUT", payload: response.data });
