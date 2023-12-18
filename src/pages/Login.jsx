@@ -1,8 +1,10 @@
 import { useState } from "react";
-import { Form, Container, Row, Col, Button } from "react-bootstrap";
-import instance from "../util/axios";
-
+import { Form, Container, Row, Col, Button, Stack } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+import useLogin from "../hooks/useLogin";
 const Login = () => {
+  const { login, errors, isLoading } = useLogin();
+  const navigate = useNavigate();
   const loginData = { email: "", password: "" };
   const [data, setData] = useState(loginData);
   const handleChange = (e) => {
@@ -11,18 +13,13 @@ const Login = () => {
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await instance.post("/users/login", data);
-      if (response.statusText === "OK") {
-        console.log(response);
-        setData(loginData);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
+    await login(data);
+    navigate("/");
   };
+  // console.log(errors);
   return (
     <Container>
+      <h4>Login</h4>
       <Row className="mt-3">
         <Col lg={4} md={6} xs={12}>
           <Form onSubmit={handleSubmit}>
@@ -48,6 +45,11 @@ const Login = () => {
             <Button variant="primary" type="submit">
               Login
             </Button>
+            <Stack>
+              <Form.Text className="text-danger mt-3">
+                {errors && errors}
+              </Form.Text>
+            </Stack>
           </Form>
         </Col>
       </Row>

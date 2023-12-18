@@ -1,12 +1,18 @@
 import { Button, Card } from "react-bootstrap";
 import useWorkoutContext from "../hooks/useWorkoutContext";
 import instance from "../util/axios";
+import useUserContext from "../hooks/useUserContext";
 const Workouts = ({ data }) => {
+  const { user } = useUserContext();
   const { dispatch } = useWorkoutContext();
   const { _id, title, weight, reps, createdAt, updatedAt } = data;
   const handleClick = async (id) => {
     try {
-      const response = await instance.delete("/workouts/" + id);
+      const response = await instance.delete("/workouts/" + id, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
 
       if (response.statusText === "OK") {
         dispatch({ type: "DELETE_WORKOUT", payload: response.data });

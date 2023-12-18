@@ -4,13 +4,19 @@ import { useEffect, useState } from "react";
 import instance from "../util/axios";
 import Workouts from "../components/Workouts";
 import useWorkoutContext from "../hooks/useWorkoutContext";
+import useUserContext from "../hooks/useUserContext";
 const Home = () => {
+  const { user } = useUserContext();
   const { workouts, dispatch } = useWorkoutContext();
   // const [workouts, setWorkouts] = useState([]);
   useEffect(() => {
     const fetchWorkouts = async () => {
       try {
-        const response = await instance.get("/workouts");
+        const response = await instance.get("/workouts", {
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+          },
+        });
 
         if (response.statusText === "OK") {
           // setWorkouts(response.data);
@@ -20,8 +26,10 @@ const Home = () => {
         console.log(error.message);
       }
     };
-    fetchWorkouts();
-  }, []);
+    if (user) {
+      fetchWorkouts();
+    }
+  }, [dispatch, user]);
   return (
     <Container>
       <Row>

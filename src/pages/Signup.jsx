@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { Form, Container, Row, Col, Button } from "react-bootstrap";
 import useSignup from "../hooks/useSignup";
-
+import { useNavigate } from "react-router-dom";
 const Signup = () => {
+  const navigate = useNavigate();
   const { signup, errors, isLoading } = useSignup();
   const sigunpData = { email: "", password: "" };
   const [data, setData] = useState(sigunpData);
@@ -13,10 +14,12 @@ const Signup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await signup(data);
+    navigate("/");
     // setData(sigunpData);
   };
   return (
     <Container>
+      <h4>Signup</h4>
       <Row className="mt-3">
         <Col lg={4} md={6} xs={12}>
           <Form onSubmit={handleSubmit}>

@@ -1,7 +1,10 @@
 import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useLogout";
+import useUserContext from "../hooks/useUserContext";
 const NavigationBar = () => {
+  const { user } = useUserContext();
+  const { logout } = useLogout();
   const navigate = useNavigate();
   return (
     <Navbar expand="lg" className="bg-body-secondary">
@@ -13,9 +16,18 @@ const NavigationBar = () => {
             <Nav.Link onClick={() => navigate("/")}>Home</Nav.Link>
           </Nav>
           <Nav>
-            <Nav.Link onClick={() => useLogout()}>Logout</Nav.Link>
-            <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
-            <Nav.Link onClick={() => navigate("/signup")}>Signup</Nav.Link>
+            {user && (
+              <>
+                <Nav.Link>{user.email}</Nav.Link>
+                <Nav.Link onClick={logout}>Logout</Nav.Link>
+              </>
+            )}
+            {!user && (
+              <>
+                <Nav.Link onClick={() => navigate("/login")}>Login</Nav.Link>
+                <Nav.Link onClick={() => navigate("/signup")}>Signup</Nav.Link>
+              </>
+            )}
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -2,7 +2,11 @@ import { useState } from "react";
 import { Button, FloatingLabel, Form, Stack } from "react-bootstrap";
 import instance from "../util/axios";
 import useWorkoutContext from "../hooks/useWorkoutContext";
+import useUserContext from "../hooks/useUserContext";
+import { useNavigate } from "react-router-dom";
 const WorkoutForm = () => {
+  const navigate = useNavigate();
+  const { user } = useUserContext();
   const { dispatch } = useWorkoutContext();
   const formData = {
     title: "",
@@ -20,9 +24,17 @@ const WorkoutForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!user) {
+      navigate("/login");
+    }
     setIsLoading(true);
     try {
-      const response = await instance.post("/workouts", data);
+      const response = await instance.post("/workouts", data, {
+        headers: {
+          Authorization: `Bearer ${user.token}`,
+        },
+      });
       if (response.statusText === "OK") {
         dispatch({ type: "ADD_WORKOUT", payload: response.data });
         setData(formData);
